@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.example.jooleproject.Entity.User;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserRepositoryTest {
@@ -18,11 +20,19 @@ public class UserRepositoryTest {
     @Test
     public void saveTest(){
         User user = new User();
-        user.setUserId(2);
+        user.setUserId("2");
         user.setPassword("hi");
         user.setRole("customer");
 
         User result = userRepository.save(user);
         Assert.assertNotEquals(null,result);
+
+
+    }
+    @Test
+    public void findByID(){
+        List<User> result =userRepository.findByUserId("2");
+        System.out.println(result);
+        Assert.assertNotEquals(null, result);
     }
 }

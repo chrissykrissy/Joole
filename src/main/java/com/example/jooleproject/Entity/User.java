@@ -10,7 +10,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private Integer userId;
+    private String userId;
 
     private String role;
 
@@ -23,11 +23,11 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.REMOVE})
     private List<Project> project;
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -66,7 +66,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer userId, String role, String password, Date timeCreated, Date timeUpdated) {
+    public User(String userId, String role, String password, Date timeCreated, Date timeUpdated) {
         this.userId = userId;
         this.role = role;
         this.password = password;
