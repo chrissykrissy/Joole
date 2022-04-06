@@ -1,6 +1,7 @@
 package com.example.jooleproject.RepositoryTests;
 
 import com.example.jooleproject.Entity.ProductType;
+import com.example.jooleproject.Repository.ProductRepository;
 import com.example.jooleproject.Repository.ProductTypeRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,11 +19,14 @@ public class ProductTypeTest {
     @Autowired
     ProductTypeRepository productTypeRepository;
 
+//    @Autowired
+//    ProductRepository productRepository;
+
+
     @Test
     public void saveTest(){
         ProductType productType = new ProductType("Commercial", "Indoor", "Roof", "With light", 2010);
-
-        //        productType.setProduct(productRepository.getByProduct_id(3));
+//        productType.setProduct(productRepository.findById("3"));
         ProductType result = productTypeRepository.save(productType);
         Assert.assertNotEquals(null, result);
     }

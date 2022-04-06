@@ -1,7 +1,6 @@
 package com.example.jooleproject.Entity;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.DateTimeAtCreation;
 
 @Entity
 public class Product {
@@ -10,6 +9,12 @@ public class Product {
     @GeneratedValue
     private Integer product_id;
 
+//    @OneToMany (fetch = FetchType.LAZY,
+//            mappedBy = "projectProduct",
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//            CascadeType.DETACH, CascadeType.REFRESH})
+//    private List<ProjectProduct> projProduct;
+
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "productType_id")
     private ProductType productType;
@@ -17,10 +22,6 @@ public class Product {
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "technicalDetail_id")
     private TechnicalDetail technicalDetail;
-
-//    @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "mechanicalDetail_id")
-//    private MechanicalDetail mechanicalDetail;
 
     private String manufacturer;
 
