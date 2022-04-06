@@ -1,6 +1,7 @@
 package com.example.jooleproject.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -9,11 +10,11 @@ public class Product {
     @GeneratedValue
     private Integer product_id;
 
-//    @OneToMany (fetch = FetchType.LAZY,
-//            mappedBy = "projectProduct",
-//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-//            CascadeType.DETACH, CascadeType.REFRESH})
-//    private List<ProjectProduct> projProduct;
+    @OneToMany (fetch = FetchType.LAZY,
+            mappedBy = "product",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    private List<ProjectProduct> projProduct;
 
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "productType_id")
@@ -36,6 +37,14 @@ public class Product {
         this.manufacturer = manufacturer;
         this.series = series;
         this.model = model;
+    }
+
+    public List<ProjectProduct> getProjProduct() {
+        return projProduct;
+    }
+
+    public void setProjProduct(List<ProjectProduct> projProduct) {
+        this.projProduct = projProduct;
     }
 
     public String getManufacturer() {

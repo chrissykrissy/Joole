@@ -6,18 +6,28 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 @Entity
-
 public class ProjectProduct {
     @Id
+    @GeneratedValue (strategy=GenerationType.IDENTITY)
     private int prId;
 
     private java.sql.Date timeCreated;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
-    //@JoinColumn(name = "product_id")
-
     private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public int getPrId() {
         return prId;

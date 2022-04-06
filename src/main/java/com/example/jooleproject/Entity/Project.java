@@ -8,18 +8,27 @@ import java.util.List;
 public class Project {
 
     @Id
+    @GeneratedValue
     private Integer projectId;
 
     private java.sql.Date timeCreated;
 
     private java.sql.Date timeUpdated;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "userId")
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<ProjectProduct> projectProduct;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getProjectId() {
         return projectId;

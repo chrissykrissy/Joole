@@ -10,6 +10,7 @@ import java.util.List;
 public class User {
 
     @Id
+//    @GeneratedValue (strategy=GenerationType.IDENTITY)
     private String userId;
 
     private String role;
@@ -20,7 +21,9 @@ public class User {
 
     private java.sql.Date timeUpdated;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = {CascadeType.REMOVE})
     private List<Project> project;
 
     public String getUserId() {
@@ -66,12 +69,10 @@ public class User {
     public User() {
     }
 
-    public User(String userId, String role, String password, Date timeCreated, Date timeUpdated) {
+    public User(String userId, String role, String password) {
         this.userId = userId;
         this.role = role;
         this.password = password;
-        this.timeCreated = timeCreated;
-        this.timeUpdated = timeUpdated;
     }
 
     public List<Project> getProject() {
