@@ -13,8 +13,10 @@ public class ProjectProduct {
 
     private java.sql.Date timeCreated;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
+    //@JoinColumn(name = "product_id")
+
     private Project project;
 
     public int getPrId() {
