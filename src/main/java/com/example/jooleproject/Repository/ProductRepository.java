@@ -7,8 +7,6 @@ import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-//    Product getByProduct_id(Integer id);
-
     List<Product> findByManufacturer(String manu);
 
     List<Product> findBySeries(String series);

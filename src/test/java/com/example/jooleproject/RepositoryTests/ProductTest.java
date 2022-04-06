@@ -26,14 +26,8 @@ public class ProductTest {
     }
 
     @Test
-    public void findById(){
-
-    }
-
-    @Test
     public void findByManufacturer(){
         List<Product> result = productRepository.findByManufacturer("manu");
-//        List<Product> result = productRepository.
         System.out.println(result);
         Assert.assertNotEquals(null, result);
     }

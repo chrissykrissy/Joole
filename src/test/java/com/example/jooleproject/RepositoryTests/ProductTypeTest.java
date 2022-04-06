@@ -19,14 +19,9 @@ public class ProductTypeTest {
     @Autowired
     ProductTypeRepository productTypeRepository;
 
-//    @Autowired
-//    ProductRepository productRepository;
-
-
     @Test
     public void saveTest(){
         ProductType productType = new ProductType("Commercial", "Indoor", "Roof", "With light", 2010);
-//        productType.setProduct(productRepository.findById("3"));
         ProductType result = productTypeRepository.save(productType);
         Assert.assertNotEquals(null, result);
     }
