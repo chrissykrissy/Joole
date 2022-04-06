@@ -4,5 +4,4 @@ import com.example.jooleproject.Entity.User;
 import java.util.List;
 public interface UserRepository extends JpaRepository<User,Integer>{
 
-    List<User>findByUserId(Integer userID);
 }

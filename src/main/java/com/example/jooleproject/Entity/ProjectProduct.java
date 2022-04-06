@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProjectProduct {
     @Id
-    private int pr_Id;
+    private int prId;
 
     private java.sql.Date timeCreated;
 
@@ -17,12 +17,12 @@ public class ProjectProduct {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public int getPr_Id() {
-        return pr_Id;
+    public int getPrId() {
+        return prId;
     }
 
-    public void setPr_Id(int pr_Id) {
-        this.pr_Id = pr_Id;
+    public void setPrId(int pr_Id) {
+        this.prId = pr_Id;
     }
 
     public Date getTimeCreated() {
@@ -37,7 +37,7 @@ public class ProjectProduct {
     }
 
     public ProjectProduct(int pr_Id, Date timeCreated) {
-        this.pr_Id = pr_Id;
+        this.prId = pr_Id;
         this.timeCreated = timeCreated;
     }
 
@@ -52,7 +52,7 @@ public class ProjectProduct {
     @Override
     public String toString() {
         return "ProjectProduct{" +
-                "pr_Id=" + pr_Id +
+                "pr_Id=" + prId +
                 ", timeCreated=" + timeCreated +
                 '}';
     }
