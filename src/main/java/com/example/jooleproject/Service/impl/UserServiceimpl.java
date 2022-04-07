@@ -41,7 +41,7 @@ public class UserServiceimpl implements UserService {
 
 
 
-    public void Delete(User user) {
+    public void Delete() {
         List<User> list= userRepository.findByUserId("bob@gmail.com");
         for(User p: list){
             userRepository.delete(p);

@@ -66,7 +66,7 @@ class JooleProjectApplicationTests {
         prod2.setProductType(ptype2);
 
         TechnicalDetail tech2 = new TechnicalDetail(1,2,3,4,5);
-        
+
 
         prod2.setTechnicalDetail(tech2);
 

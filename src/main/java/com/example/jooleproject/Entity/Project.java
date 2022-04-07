@@ -58,6 +58,7 @@ public class Project {
     public Project() {
     }
 
+
     public Project(Integer projectId, Date timeCreated, Date timeUpdated) {
         this.projectId = projectId;
         this.timeCreated = timeCreated;
