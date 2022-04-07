@@ -9,5 +9,5 @@ public interface ProjectService {
 
     Project Update(Project project);
 
-    void Delete(Project project);
+    void Delete(Integer id);
 }

@@ -4,6 +4,7 @@ import com.example.jooleproject.Repository.ProjectRepository;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 @Entity
 public class ProjectProduct {
@@ -12,7 +13,7 @@ public class ProjectProduct {
 
     private int prId;
 
-    private java.sql.Date timeCreated;
+    private Timestamp timeCreated;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
@@ -39,19 +40,23 @@ public class ProjectProduct {
         this.prId = pr_Id;
     }
 
-    public Date getTimeCreated() {
+    public Timestamp getTimeCreated() {
         return timeCreated;
     }
 
-    public void setTimeCreated(Date timeCreated) {
+    public void setTimeCreated(Timestamp timeCreated) {
         this.timeCreated = timeCreated;
     }
 
     public ProjectProduct() {
     }
 
-    public ProjectProduct(int pr_Id, Date timeCreated) {
+    public ProjectProduct(int pr_Id, Timestamp timeCreated) {
         this.prId = pr_Id;
+        this.timeCreated = timeCreated;
+    }
+
+    public ProjectProduct(Timestamp timeCreated) {
         this.timeCreated = timeCreated;
     }
 

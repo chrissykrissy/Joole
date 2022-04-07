@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectServiceimpl implements ProjectService {
@@ -34,11 +37,14 @@ public class ProjectServiceimpl implements ProjectService {
 
 
     public Project Update(Project project) {
-        return null;
+        Timestamp instant = Timestamp.from(Instant.now());
+        project.setTimeUpdated(instant);
+        return project;
     }
 
 
-    public void Delete(Project project) {
+    public void Delete(Integer id) {
+        projectRepository.deleteById(id);
 
 
     }
