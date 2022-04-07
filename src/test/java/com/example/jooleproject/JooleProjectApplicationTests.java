@@ -40,9 +40,9 @@ class JooleProjectApplicationTests {
 
         //create proj
         Project proj = new Project();
+
         //set project user
         proj.setUser(user);
-
 
         //create list of ProjectProduct
         List<ProjectProduct> pjpr = new ArrayList<>();
@@ -53,40 +53,23 @@ class JooleProjectApplicationTests {
         Product prod = new Product("manu", "series", "model");
         Product prod2 = new Product("dior", "boutique", "grey");
 
-
-        //set the proType/tech for each product
+        //set the proType/tech for each products
         ProductType ptype1 = new ProductType("Commercial", "Indoor", "Roof", "With light", 2010);
         prod.setProductType(ptype1);
         TechnicalDetail tech1 = new TechnicalDetail(100,200,300,400,500);
-
-
         prod.setTechnicalDetail(tech1);
 
         ProductType ptype2 = new ProductType("Industrial", "Outdoor", "Wall", "Without light", 2010);
         prod2.setProductType(ptype2);
-
         TechnicalDetail tech2 = new TechnicalDetail(1,2,3,4,5);
-
-
         prod2.setTechnicalDetail(tech2);
 
         //put the product as projectProduct
         projectProduct1.setProduct(prod);
-
-        projectProduct1.setProject(proj);
         projectProduct2.setProduct(prod2);
-        projectProduct2.setProject(proj);
-
-        projectProduct2.setProduct(prod2);
-
         pjpr.add(projectProduct1);
         pjpr.add(projectProduct2);
         proj.setProjectProduct(pjpr);
-
-
-        //set project user
-        proj.setUser(user);
-
 
         //save all
         User savedUser = userRepository.save(user);
