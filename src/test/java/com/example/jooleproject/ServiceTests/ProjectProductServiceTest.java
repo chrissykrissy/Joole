@@ -23,6 +23,8 @@ public class ProjectProductServiceTest {
         String str = projectProductServiceimpl.Read();
         Assert.assertNotNull(str);
     }
+    //this one doesn't work since I put the return value to null
+    //since there is nothing to update in this entity
     @Test
     public void Update() throws Exception{
         ProjectProduct before = projectProductServiceimpl.Create();
