@@ -1,8 +1,7 @@
 package com.example.jooleproject.ServiceTests;
 
 import com.example.jooleproject.Entity.ProductType;
-import com.example.jooleproject.Service.impl.*;
-import com.example.jooleproject.Service.impl.ProductTypeServiceImpl;
+import com.example.jooleproject.Service.ProductTypeServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
