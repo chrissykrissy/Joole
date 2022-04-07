@@ -26,9 +26,6 @@ class JooleProjectApplicationTests {
     @Autowired
     UserRepository userRepository;
 
-    @Test
-    void contextLoads() {
-    }
 
     @Test
     void full(){
