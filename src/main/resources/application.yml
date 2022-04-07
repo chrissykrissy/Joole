@@ -8,6 +8,6 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:
-      jdbc:mysql://localhost:3306/JooleProject
+      jdbc:mysql://localhost:3306/joole
     username: root
-    password: Wn980716@
+    password: root

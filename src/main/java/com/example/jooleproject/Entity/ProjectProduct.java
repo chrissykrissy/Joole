@@ -8,16 +8,27 @@ import java.util.List;
 @Entity
 public class ProjectProduct {
     @Id
+<<<<<<< Updated upstream
     @GeneratedValue (strategy=GenerationType.IDENTITY)
+=======
+    @GeneratedValue
+>>>>>>> Stashed changes
     private int prId;
 
     private java.sql.Date timeCreated;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
+<<<<<<< Updated upstream
     private Project project;
 
     @ManyToOne
+=======
+
+    private Project project;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+>>>>>>> Stashed changes
     @JoinColumn(name = "product_id")
     private Product product;
 

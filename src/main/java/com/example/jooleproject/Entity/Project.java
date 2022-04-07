@@ -16,12 +16,17 @@ public class Project {
     private java.sql.Date timeUpdated;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+<<<<<<< Updated upstream
     @JoinColumn(name = "userId")
+=======
+    @JoinColumn(name = "user_id")
+>>>>>>> Stashed changes
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<ProjectProduct> projectProduct;
 
+<<<<<<< Updated upstream
     public User getUser() {
         return user;
     }
@@ -29,6 +34,8 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
     }
+=======
+>>>>>>> Stashed changes
 
     public Integer getProjectId() {
         return projectId;
@@ -78,5 +85,11 @@ public class Project {
                 ", timeCreated=" + timeCreated +
                 ", timeUpdated=" + timeUpdated +
                 '}';
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+
+
     }
 }
