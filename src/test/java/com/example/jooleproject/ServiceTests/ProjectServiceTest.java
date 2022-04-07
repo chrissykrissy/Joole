@@ -28,6 +28,14 @@ public class ProjectServiceTest {
 
     @Test
     public void Update() throws Exception{
+        Project before = projectServiceimpl.Create();
+        Project after = projectServiceimpl.Update(before);
+        Assert.assertEquals(before, after);
 
+    }
+    @Test
+    public void Delete() throws Exception{
+        projectServiceimpl.Delete(1);
+        Assert.assertNotEquals(projectServiceimpl.Read(), "");
     }
 }
