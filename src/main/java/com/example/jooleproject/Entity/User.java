@@ -75,11 +75,6 @@ public class User {
         this.password = password;
     }
 
-    public User(String userId, String role, String password) {
-        this.userId = userId;
-        this.role = role;
-        this.password = password;
-    }
 
     public List<Project> getProject() {
         return project;

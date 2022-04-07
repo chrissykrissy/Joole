@@ -1,26 +1,51 @@
 package com.example.jooleproject.Service.impl;
 import com.example.jooleproject.*;
+import com.example.jooleproject.Entity.Product;
 import com.example.jooleproject.Entity.User;
 import com.example.jooleproject.Service.UserService;
+import com.example.jooleproject.Repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class UserServiceimpl implements UserService {
-    @Override
-    public User Create(User user) {
-        return null;
+
+    @Autowired
+    UserRepository userRepository;
+    @Transactional
+    public User Create() {
+        User user = new User("bob@gmail.com", "customer","hello");
+        userRepository.save(user);
+        return user;
     }
 
-    @Override
-    public User Read(User user) {
-        return null;
+
+
+    public String Read() {
+        StringBuilder sb = new StringBuilder();
+        List<User> list = userRepository.findAll();
+        for(User p : list){
+            sb.append(p.toString());
+        }
+        return sb.toString();
     }
 
-    @Override
+
+
     public User Update(User user) {
-        return null;
+        user.setRole("Consumer");
+        user.setPassword("hi");
+        return user;
     }
 
-    @Override
-    public User Delete(User user) {
-        return null;
+
+
+    public void Delete(User user) {
+        List<User> list= userRepository.findByUserId("bob@gmail.com");
+        for(User p: list){
+            userRepository.delete(p);
+        }
+
     }
 }

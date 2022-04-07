@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 
 
 public interface UserService {
-    User Create(User user);
+    User Create();
 
-    User Read(User user);
+    String Read();
 
     User Update(User user);
 
-    User Delete(User user);
+    void Delete(User user);
 
 
 }
