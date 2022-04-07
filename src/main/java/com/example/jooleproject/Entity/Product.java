@@ -12,12 +12,10 @@ public class Product {
 
     @OneToMany (fetch = FetchType.LAZY,
             mappedBy = "product",
-<<<<<<< Updated upstream
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-=======
-            cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
->>>>>>> Stashed changes
+
+
     private List<ProjectProduct> projProduct;
 
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
