@@ -17,7 +17,7 @@ public class ProjectProduct {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
     private Product product;
 
