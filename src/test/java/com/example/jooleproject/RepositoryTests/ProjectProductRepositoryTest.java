@@ -7,6 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProjectProductRepositoryTest {
@@ -17,6 +21,10 @@ public class ProjectProductRepositoryTest {
     @Test
     public void saveTest(){
         ProjectProduct projectProduct = new ProjectProduct();
-        projectProduct.setPrId(2);
+        Timestamp instant = Timestamp.from(Instant.now());
+        projectProduct.setTimeCreated(instant);
+
+        ProjectProduct result = projectProductRepository.save(projectProduct);
+        Assert.assertNotEquals(null,result);
     }
 }
