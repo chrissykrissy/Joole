@@ -1,5 +1,5 @@
 package com.example.jooleproject.ServiceTests;
-import com.example.jooleproject.Service.impl.ProjectProductServiceimpl;
+import com.example.jooleproject.Service.ProjectProductServiceimpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

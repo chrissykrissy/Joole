@@ -1,14 +1,12 @@
 package com.example.jooleproject.ServiceTests;
-import com.example.jooleproject.Service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.RunListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.example.jooleproject.Entity.*;
-import com.example.jooleproject.Service.impl.UserServiceimpl;
+import com.example.jooleproject.Service.UserServiceimpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

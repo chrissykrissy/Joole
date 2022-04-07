@@ -1,4 +1,4 @@
-package com.example.jooleproject.Service.impl;
+package com.example.jooleproject.Service;
 import com.example.jooleproject.Repository.ProjectRepository;
 import com.example.jooleproject.Entity.Project;
 import com.example.jooleproject.Service.ProjectService;

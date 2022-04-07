@@ -2,7 +2,7 @@ package com.example.jooleproject.ServiceTests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.example.jooleproject.Service.impl.ProjectServiceimpl;
+import com.example.jooleproject.Service.ProjectServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
