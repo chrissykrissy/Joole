@@ -1,4 +1,5 @@
 package com.example.jooleproject.Service.Impl;
+import com.example.jooleproject.Entity.User;
 import com.example.jooleproject.Repository.ProjectRepository;
 import com.example.jooleproject.Entity.Project;
 import com.example.jooleproject.Service.ProjectService;
@@ -25,6 +26,11 @@ public class ProjectServiceimpl implements ProjectService {
         return project;
     }
 
+    public Boolean create(Project project, User user) {
+        projectRepository.save(project);
+        return true;
+    }
+
 
     public String Read() {
         StringBuilder sb = new StringBuilder();
@@ -33,6 +39,10 @@ public class ProjectServiceimpl implements ProjectService {
             sb.append(p.toString());
         }
         return sb.toString();
+    }
+
+    public Project Get(Integer Id) {
+        return projectRepository.getById(Id);
     }
 
 
@@ -48,4 +58,5 @@ public class ProjectServiceimpl implements ProjectService {
 
 
     }
+
 }
