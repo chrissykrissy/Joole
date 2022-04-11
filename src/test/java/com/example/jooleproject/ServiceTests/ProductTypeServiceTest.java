@@ -1,5 +1,6 @@
 package com.example.jooleproject.ServiceTests;
 
+import com.example.jooleproject.Entity.Product;
 import com.example.jooleproject.Entity.ProductType;
 import com.example.jooleproject.Service.Impl.*;
 import org.junit.Assert;
@@ -8,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,6 +29,12 @@ public class ProductTypeServiceTest {
     public void readAll() throws Exception{
         String str = ptImpl.readAll();
         Assert.assertNotNull(str);
+    }
+
+    @Test
+    public void findByAll(){
+        List<ProductType> list = ptImpl.findByAll("Commercial", "Indoor", "Roof","With light", 2010);
+        Assert.assertNotNull(list);
     }
 
     @Test

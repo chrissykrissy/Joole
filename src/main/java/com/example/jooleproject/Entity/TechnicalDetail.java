@@ -32,6 +32,14 @@ public class TechnicalDetail {
         this.height = height;
     }
 
+    public Integer getTechnicalDetail_id() {
+        return technicalDetail_id;
+    }
+
+    public void setTechnicalDetail_id(Integer technicalDetail_id) {
+        this.technicalDetail_id = technicalDetail_id;
+    }
+
     public Product getProduct() {
         return product;
     }

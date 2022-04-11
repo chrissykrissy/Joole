@@ -4,7 +4,9 @@ import com.example.jooleproject.Entity.TechnicalDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
-public interface TechnicalDetailRepository extends JpaRepository<TechnicalDetail, String> {
+public interface TechnicalDetailRepository extends JpaRepository<TechnicalDetail, Integer> {
+
+//    TechnicalDetail findByTechnicalDetail_id(int id);
 
     List<TechnicalDetail> findByAirflowAfter(int airflow);
     List<TechnicalDetail> findByAirflowBetween(int first, int second);
@@ -25,5 +27,7 @@ public interface TechnicalDetailRepository extends JpaRepository<TechnicalDetail
     List<TechnicalDetail> findByHeightAfter(int height);
     List<TechnicalDetail> findByHeightBetween(int first, int second);
     List<TechnicalDetail> findByHeightBefore(int height);
+
+    List<TechnicalDetail> findByAirflowAndMaxPowerAndSoundMaxAndDiameterAndHeight(int airflow, int maxPower, int soundMax, int diameter, int height);
 
 }

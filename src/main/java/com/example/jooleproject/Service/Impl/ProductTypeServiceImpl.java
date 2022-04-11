@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +24,13 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         return repo.findByUseType("Commercial").get(0);
     }
 
+    @Transactional
+    public ProductType create(String useType, String application, String mountingLocation, String accessories, int year){
+        ProductType pt = new ProductType(useType, application, mountingLocation, accessories, year);
+        repo.save(pt);
+        return pt;
+    }
+
     public String readAll(){
         StringBuilder sb = new StringBuilder();
         List<ProductType> list = repo.findAll();
@@ -32,6 +40,29 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         return sb.toString();
     }
 
+    public List<Product> findByUseType(String useType){
+        List<ProductType> list = repo.findByUseType(useType);
+        List<Product> retList = new ArrayList<>();
+        for (ProductType pt : list){
+            retList.add(pt.getProduct());
+        }
+        return retList;
+    }
+
+    public List<ProductType> findByAll(String useType, String application, String mountingLocation, String accessories, int year){
+        List<ProductType> list = repo.findByUseTypeAndApplicationAndMountingLocationAndAccessoriesAndYear(useType, application, mountingLocation, accessories, year);
+//        List<Product> retList = new ArrayList<>();
+//        for (ProductType pt : list){
+//            retList.add(pt.getProduct());
+//        }
+        return list;
+    }
+
+    @Override
+    public ProductType findByID(Integer id) {
+        return repo.getById(id);
+    }
+
     public ProductType update(ProductType pt){
         pt.setUseType("Residential");
         pt.setApplication("Outdoor");
@@ -39,6 +70,16 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         pt.setAccessories("Without light");
         pt.setYear(2022);
 
+        return pt;
+    }
+
+    public ProductType updateAll(int id, String useType, String application, String mountingLocation, String accessories, int year){
+        ProductType pt = repo.findById(id).get();
+        pt.setUseType(useType);
+        pt.setApplication(application);
+        pt.setMountingLocation(mountingLocation);
+        pt.setAccessories(accessories);
+        pt.setYear(year);
         return pt;
     }
 
