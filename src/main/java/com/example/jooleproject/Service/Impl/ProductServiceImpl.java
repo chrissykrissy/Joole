@@ -23,11 +23,11 @@ public class ProductServiceImpl implements ProductService {
         return prod;
     }
 
-    public String readAll(){
+    public String readAll() {
         StringBuilder sb = new StringBuilder();
         List<Product> list = repository.findAll();
-        for (Product p : list){
-           sb.append(p.toString());
+        for (Product p : list) {
+            sb.append(p.toString());
         }
         return sb.toString();
     }
@@ -77,12 +77,8 @@ public class ProductServiceImpl implements ProductService {
 
     public void deleteByManufacturer(String manu){
         List<Product> list = repository.findByManufacturer(manu);
-        for (Product p : list){
+        for (Product p : list) {
             repository.delete(p);
         }
     }
-
-
-
-
 }

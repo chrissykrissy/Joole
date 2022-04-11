@@ -2,16 +2,20 @@ package com.example.jooleproject;
 
 import com.example.jooleproject.Entity.*;
 import com.example.jooleproject.Repository.*;
+
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+
+import java.sql.Date;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
 class JooleProjectApplicationTests {
-
     @Autowired
     ProductRepository productRepository;
     @Autowired
@@ -25,18 +29,20 @@ class JooleProjectApplicationTests {
     @Autowired
     UserRepository userRepository;
 
-    @Test
-    void contextLoads() {
-    }
 
     @Test
-    void full(){
+
+    void full() {
+
 
         //create user
         User user = new User("xsyjeon", "password", "customer");
 
         //create proj
         Project proj = new Project();
+
+        //set project user
+        proj.setUser(user);
 
         //create list of ProjectProduct
         List<ProjectProduct> pjpr = new ArrayList<>();
@@ -47,7 +53,7 @@ class JooleProjectApplicationTests {
         Product prod = new Product("manu", "series", "model");
         Product prod2 = new Product("dior", "boutique", "grey");
 
-        //set the proType/tech for each product
+        //set the proType/tech for each products
         ProductType ptype1 = new ProductType("Commercial", "Indoor", "Roof", "With light", 2010);
         prod.setProductType(ptype1);
         TechnicalDetail tech1 = new TechnicalDetail(100,200,300,400,500);
@@ -60,15 +66,10 @@ class JooleProjectApplicationTests {
 
         //put the product as projectProduct
         projectProduct1.setProduct(prod);
-        projectProduct1.setProject(proj);
         projectProduct2.setProduct(prod2);
-        projectProduct2.setProject(proj);
         pjpr.add(projectProduct1);
         pjpr.add(projectProduct2);
         proj.setProjectProduct(pjpr);
-
-        //set project user
-        proj.setUser(user);
 
         //save all
         User savedUser = userRepository.save(user);
@@ -83,6 +84,9 @@ class JooleProjectApplicationTests {
         TechnicalDetail savedTD2 = technicalDetailRepository.save(tech2);
 
         Project savedProject = projectRepository.save(proj);
+
+
+
 
     }
 

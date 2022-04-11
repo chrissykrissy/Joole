@@ -23,7 +23,7 @@ public class ProjectRepositoryTest {
     @Test
     public void saveTest(){
         Project project = new Project();
-        project.setProjectId(2);
+        //project.setProjectId(2);
         //project.setTimeCreated(Date.valueOf("04-06-2022"));
 
         Project result = projectRepository.save(project);
