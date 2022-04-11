@@ -80,9 +80,9 @@ public class ProductController {
 
     //find by Mechanical detail
     @GetMapping("/products/byMechanical")
-    public ResponseEntity<?> findByManuSeriesModel(@RequestParam("Manufacture") String manufacturer,
-                                                   @RequestParam("Series") String series,
-                                                   @RequestParam("Model") String model){
+    public ResponseEntity<?> findByManuSeriesModel(@RequestParam(required = false, name = "Manufacture") String manufacturer,
+                                                   @RequestParam(required = false, name = "Series") String series,
+                                                   @RequestParam(required = false, name = "Model") String model){
         List<Product> list = productService.findByAll(manufacturer, series, model);
 
         if (list.isEmpty()){
@@ -93,11 +93,11 @@ public class ProductController {
 
     //find By ProductType
     @GetMapping("/products/byProductType")
-    public ResponseEntity<?> findByProductType(@RequestParam ("UseType") String useType,
-                                                   @RequestParam ("Application") String application,
-                                                   @RequestParam ("Mounting Location") String mountingLocation,
-                                                   @RequestParam ("Accessories") String accessories,
-                                                   @RequestParam ("Year") int year){
+    public ResponseEntity<?> findByProductType(@RequestParam (required = false, name = "UseType") String useType,
+                                                   @RequestParam (required = false, name = "Application") String application,
+                                                   @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
+                                                   @RequestParam (required = false, name = "Accessories") String accessories,
+                                                   @RequestParam (required = false, name = "Year") int year){
         List<ProductType> list = productTypeService.findByAll(useType, application, mountingLocation, accessories, year);
 
         if (list.isEmpty()){
@@ -109,10 +109,10 @@ public class ProductController {
     //find By TechDetail
     @GetMapping("/products/byTechDetail")
     public ResponseEntity<?> findByTechDetail(@RequestParam ("Air Flow") int airflow,
-                                                   @RequestParam ("Max Power") int maxPower,
-                                                   @RequestParam ("Sound Max") int soundMax,
-                                                   @RequestParam ("Diameter") int diameter,
-                                                   @RequestParam ("Height") int height){
+                                                   @RequestParam (required = false, name = "Max Power") int maxPower,
+                                                   @RequestParam (required = false, name = "Sound Max") int soundMax,
+                                                   @RequestParam (required = false, name = "Diameter") int diameter,
+                                                   @RequestParam (required = false, name = "Height") int height){
         List<TechnicalDetail> list = techDetailService.findByAll(airflow, maxPower, soundMax, diameter, height);
 
         if (list.isEmpty()){
@@ -141,11 +141,11 @@ public class ProductController {
     //update type
     @PostMapping("products/updateByProductType")
     public ResponseEntity<?> findByManuSeriesModel(@RequestParam("ID") int ptID,
-                                                   @RequestParam ("UseType") String useType,
-                                                   @RequestParam ("Application") String application,
-                                                   @RequestParam ("Mounting Location") String mountingLocation,
-                                                   @RequestParam ("Accessories") String accessories,
-                                                   @RequestParam ("Year") int year) {
+                                                   @RequestParam (required = false, name = "UseType") String useType,
+                                                   @RequestParam (required = false, name = "Application") String application,
+                                                   @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
+                                                   @RequestParam (required = false, name = "Accessories") String accessories,
+                                                   @RequestParam (required = false, name = "Year") int year) {
 
         ProductType pt = productTypeService.updateAll(ptID, useType, application, mountingLocation, accessories, year);
         if (pt != null){
@@ -158,11 +158,11 @@ public class ProductController {
     //update Technical
     @PostMapping("products/updateByTechnical")
     public ResponseEntity<?> findByTechnicalDetail(@RequestParam("ID") int tdID,
-                                                   @RequestParam ("Air Flow") int airflow,
-                                                   @RequestParam ("Max Power") int maxPower,
-                                                   @RequestParam ("Sound Max") int soundMax,
-                                                   @RequestParam ("Diameter") int diameter,
-                                                   @RequestParam ("Height") int height) {
+                                                   @RequestParam (required = false, name = "Air Flow") int airflow,
+                                                   @RequestParam (required = false, name = "Max Power") int maxPower,
+                                                   @RequestParam (required = false, name = "Sound Max") int soundMax,
+                                                   @RequestParam (required = false, name = "Diameter") int diameter,
+                                                   @RequestParam (required = false, name = "Height") int height) {
 
         TechnicalDetail td = techDetailService.updateAll(tdID, airflow, maxPower, soundMax, diameter, height);
         if (td != null){
