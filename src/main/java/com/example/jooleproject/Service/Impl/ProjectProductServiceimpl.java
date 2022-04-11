@@ -18,7 +18,7 @@ public class ProjectProductServiceimpl implements ProjectProductService {
     ProjectProductRepository projectProductRepository;
 
 
-    @Override
+    @Transactional
     public ProjectProduct Create() {
         Timestamp instant = Timestamp.from(Instant.now());
         ProjectProduct projectProduct = new ProjectProduct(instant);
@@ -26,7 +26,7 @@ public class ProjectProductServiceimpl implements ProjectProductService {
         return projectProduct;
     }
 
-    @Override
+
     public String Read() {
         StringBuilder sb = new StringBuilder();
         List<ProjectProduct> list = projectProductRepository.findAll();
@@ -37,12 +37,11 @@ public class ProjectProductServiceimpl implements ProjectProductService {
         return sb.toString();
     }
 
-    @Override
-    public ProjectProduct Updated(ProjectProduct projectProduct) {
-        return null;
+    public ProjectProduct Get(Integer Id) {
+        return projectProductRepository.getById(Id);
     }
 
-    @Override
+
     public void Delete(Integer id) {
         projectProductRepository.deleteById(id);
 

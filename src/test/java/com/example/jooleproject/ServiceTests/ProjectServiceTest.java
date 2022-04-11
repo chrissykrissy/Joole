@@ -25,6 +25,11 @@ public class ProjectServiceTest {
         String str = projectServiceimpl.Read();
         Assert.assertNotNull(str);
     }
+    @Test
+    public void Get() throws Exception{
+        Project result = projectServiceimpl.Create();
+        Project project = projectServiceimpl.Get(1);
+    }
 
     @Test
     public void Update() throws Exception{

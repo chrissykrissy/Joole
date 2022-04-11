@@ -8,7 +8,7 @@ public interface ProjectProductService {
 
     String Read();
 
-    ProjectProduct Updated(ProjectProduct projectProduct);
+    ProjectProduct Get(Integer Id);
 
     void Delete(Integer id);
 
