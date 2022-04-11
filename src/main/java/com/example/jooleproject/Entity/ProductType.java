@@ -33,6 +33,14 @@ public class ProductType {
         this.year = year;
     }
 
+    public Integer getProductType_id() {
+        return productType_id;
+    }
+
+    public void setProductType_id(Integer productType_id) {
+        this.productType_id = productType_id;
+    }
+
     public Product getProduct() {
         return product;
     }

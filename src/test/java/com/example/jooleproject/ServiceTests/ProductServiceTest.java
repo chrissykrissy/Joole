@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductServiceTest {
@@ -18,7 +20,7 @@ public class ProductServiceTest {
 
     @Test
     public void create() throws Exception{
-        Product result = productServiceImpl.create();
+        Product result = productServiceImpl.create("Apple", "XS", "Mini");
         Assert.assertNotNull(result);
     }
 
@@ -29,8 +31,14 @@ public class ProductServiceTest {
     }
 
     @Test
+    public void list() throws Exception{
+        List<Product> list = productServiceImpl.list();
+        Assert.assertNotNull(list);
+    }
+
+    @Test
     public void update() throws Exception{
-        Product before = productServiceImpl.create();
+        Product before = productServiceImpl.create("Apple", "XS", "Mini");
         Product after = productServiceImpl.update(before);
         Assert.assertEquals(before, after);
     }
