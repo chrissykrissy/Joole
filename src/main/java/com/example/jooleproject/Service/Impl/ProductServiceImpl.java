@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     public List<Product> findByAll(String manu, String series, String model){
-        return repository.findByManufacturerAndAndSeriesAndModel(manu, series, model);
+        return repository.findByManufacturerAndSeriesAndModel(manu, series, model);
     }
 
     public Product findByID(Integer id){
