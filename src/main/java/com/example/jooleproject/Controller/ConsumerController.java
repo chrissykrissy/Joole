@@ -26,7 +26,7 @@ public class ConsumerController {
     @Autowired
     ProductServiceImpl productServiceimpl;
 
-    @PostMapping("/Consumer/addProject")
+    @PostMapping("/addProject")
     public ResponseEntity<?> addProject(){
         Project projectToAdd = new Project();
         boolean isSuccessful = projectServiceimpl.create(projectToAdd);
@@ -36,7 +36,7 @@ public class ConsumerController {
         return new ResponseEntity<>(projectToAdd, HttpStatus.OK);
 
     }
-    @PostMapping("/Consumer/deleteProject")
+    @PostMapping("/deleteProject")
     public ResponseEntity<?> deleteProject( @RequestParam(name="projectId") Integer projectId){
         Project projectToDelete = projectServiceimpl.Get(projectId);
         projectServiceimpl.Delete(projectId);
@@ -45,7 +45,7 @@ public class ConsumerController {
         }
         return new ResponseEntity<>(projectToDelete, HttpStatus.OK);
     }
-    @GetMapping("/Consumer/readProject")
+    @GetMapping("/readProject")
     public ResponseEntity<?> read(@RequestParam(name="projectId") Integer projectId) {
         Project project = projectServiceimpl.Get(projectId);
         if (project == null) {
@@ -57,7 +57,7 @@ public class ConsumerController {
 
     }
 
-    @PostMapping("/Consumer/productToProjectView")
+    @PostMapping("/productToProjectView")
     public ResponseEntity<?> view(@RequestParam(name = "prId")Integer prId){
         ProjectProduct projectProduct = projectProductServiceimpl.Get(prId);
         if (projectProduct == null) {

@@ -15,7 +15,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/UserController")
 public class UserController {
     @Autowired
     UserServiceimpl userServiceimpl;
@@ -34,12 +34,12 @@ public class UserController {
     public ResponseEntity<?> list(){
         List<User> list = userServiceimpl.list();
         if(list.isEmpty()){
-            return new ResponseEntity<>("{\"Error\":\"Product not found!\"}", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"Error\":\"User not found!\"}", HttpStatus.BAD_REQUEST);
         }else{
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
     }
-    @PostMapping("/users/create")
+    @PostMapping("/create")
     public ResponseEntity<?> addUser( @RequestParam(name="userId") String userId,@RequestParam(name="role") String role, @RequestParam(name="password") String password){
         User newuser = userServiceimpl.Create(userId, role, password );
         if(newuser != null)
@@ -50,7 +50,7 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when creating new user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/users/delete")
+    @PostMapping("/delete")
     public ResponseEntity<?> deleteUser(@RequestParam(name="userId") String userId)
     {
         userServiceimpl.Delete(userId);
@@ -61,7 +61,7 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when deleting user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/users/read")
+    @PostMapping("/read")
     public ResponseEntity<?> readUser(@RequestParam(name="userId") String userId){
         User user = userServiceimpl.Get(userId);
         if (user == null) {
@@ -71,7 +71,7 @@ public class UserController {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
-    @PostMapping("/users/updateid")
+    @PostMapping("/UserController/updateid")
     public ResponseEntity<?> updateUserId(@RequestParam(name="userId") String userId, @RequestParam(name = "newuserId") String newuserId)
     {
         User user = userServiceimpl.Get(userId);
@@ -85,7 +85,7 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when updating user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/users/updatepassword")
+    @PostMapping("/UserController/updatepassword")
     public ResponseEntity<?> updatePassword(@RequestParam(name="userId") String userId, @RequestParam(name = "newpassword") String newpassword){
         User user = userServiceimpl.Get(userId);
         Timestamp instant = Timestamp.from(Instant.now());

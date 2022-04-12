@@ -11,3 +11,4 @@ spring:
       jdbc:mysql://localhost:3306/joole
     username: root
     password: root
+
