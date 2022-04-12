@@ -26,7 +26,7 @@ public class ProjectServiceimpl implements ProjectService {
         return project;
     }
 
-    public Boolean create(Project project, User user) {
+    public Boolean create(Project project) {
         projectRepository.save(project);
         return true;
     }

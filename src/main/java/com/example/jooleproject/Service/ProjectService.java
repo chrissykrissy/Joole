@@ -6,7 +6,7 @@ import com.example.jooleproject.Repository.ProjectRepository;
 public interface ProjectService {
     Project Create();
 
-    Boolean create(Project project, User user);
+    Boolean create(Project project);
 
     String Read();
 

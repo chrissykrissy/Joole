@@ -2,7 +2,7 @@ package com.example.jooleproject.Entity;
 
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -17,9 +17,9 @@ public class User {
 
     private String password;
 
-    private java.sql.Date timeCreated;
+    private Timestamp timeCreated;
 
-    private java.sql.Date timeUpdated;
+    private Timestamp timeUpdated;
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "user",
@@ -50,19 +50,19 @@ public class User {
         this.password = password;
     }
 
-    public Date getTimeCreated() {
+    public Timestamp getTimeCreated() {
         return timeCreated;
     }
 
-    public void setTimeCreated(Date timeCreated) {
+    public void setTimeCreated(Timestamp timeCreated) {
         this.timeCreated = timeCreated;
     }
 
-    public Date getTimeUpdated() {
+    public Timestamp getTimeUpdated() {
         return timeUpdated;
     }
 
-    public void setTimeUpdated(Date timeUpdated) {
+    public void setTimeUpdated(Timestamp timeUpdated) {
         this.timeUpdated = timeUpdated;
     }
 

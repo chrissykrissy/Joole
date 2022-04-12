@@ -26,21 +26,18 @@ public class ConsumerController {
     @Autowired
     ProductServiceImpl productServiceimpl;
 
-    private User getCurrentUser(Principal principal){
-        return null;
-    }
-    @PostMapping("/addProject")
-    public ResponseEntity<?> addProject(User user, @RequestParam(name="projectId") String projectId){
+    @PostMapping("/Consumer/addProject")
+    public ResponseEntity<?> addProject(){
         Project projectToAdd = new Project();
-        boolean isSuccessful = projectServiceimpl.create(projectToAdd, user);
+        boolean isSuccessful = projectServiceimpl.create(projectToAdd);
         if(!isSuccessful){
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when creating new project!\"}",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(projectToAdd, HttpStatus.OK);
 
     }
-    @PostMapping("/deleteProject")
-    public ResponseEntity<?> deleteProject(User user, @RequestParam(name="projectId") Integer projectId){
+    @PostMapping("/Consumer/deleteProject")
+    public ResponseEntity<?> deleteProject( @RequestParam(name="projectId") Integer projectId){
         Project projectToDelete = projectServiceimpl.Get(projectId);
         projectServiceimpl.Delete(projectId);
         if(projectToDelete == null){
@@ -48,20 +45,19 @@ public class ConsumerController {
         }
         return new ResponseEntity<>(projectToDelete, HttpStatus.OK);
     }
-    @GetMapping("/readProject")
-    public ResponseEntity<?> read(User user, @RequestParam(name="projectId") Integer projectId) {
+    @GetMapping("/Consumer/readProject")
+    public ResponseEntity<?> read(@RequestParam(name="projectId") Integer projectId) {
         Project project = projectServiceimpl.Get(projectId);
         if (project == null) {
             return new ResponseEntity<>("{\"error\":\"project not found!\"}", HttpStatus.BAD_REQUEST);
         }
-        String body = projectServiceimpl.Read();
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        else{
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        }
 
     }
-  //  @PostMapping("/addProduct")
-    //public ResponseEntity<?> addProduct(User user, @RequestParam(name="projectId") String projectId), @RequestParam(name="productId") String productId)
 
-    @PostMapping("/productToProjectView")
+    @PostMapping("/Consumer/productToProjectView")
     public ResponseEntity<?> view(@RequestParam(name = "prId")Integer prId){
         ProjectProduct projectProduct = projectProductServiceimpl.Get(prId);
         if (projectProduct == null) {

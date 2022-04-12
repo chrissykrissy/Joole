@@ -18,7 +18,7 @@ public class UserServiceTest {
 
     @Test
     public void create() throws Exception{
-        User result = userServiceimpl.Create();
+        User result = userServiceimpl.Create("hielo", "customer", "hiello");
         Assert.assertNotNull(result);
     }
 
@@ -30,7 +30,7 @@ public class UserServiceTest {
 
     @Test
     public void Update(){
-        User before = userServiceimpl.Create();
+        User before = userServiceimpl.Create("hielo", "customer", "hiello");
         User after = userServiceimpl.Update(before);
         Assert.assertEquals(before, after);
     }

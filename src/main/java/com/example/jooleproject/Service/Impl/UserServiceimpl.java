@@ -16,8 +16,8 @@ public class UserServiceimpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Transactional
-    public User Create() {
-        User user = new User("bob@gmail.com", "customer","hello");
+    public User Create(String username, String role, String password) {
+        User user = new User(username, role,password);
         userRepository.save(user);
         return user;
     }
@@ -40,6 +40,10 @@ public class UserServiceimpl implements UserService {
         user.setPassword("hi");
         return user;
     }
+    public User Get(String userId){
+        User user = userRepository.getById(userId);
+        return user;
+    }
 
 
 
@@ -49,5 +53,9 @@ public class UserServiceimpl implements UserService {
             userRepository.delete(p);
         }
 
+    }
+
+    public List<User> list() {
+        return userRepository.findAll();
     }
 }
