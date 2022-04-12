@@ -1,12 +1,16 @@
 package com.example.jooleproject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
+import static com.example.jooleproject.Controller.ProductController.INCLUSION_FILTER;
+
 @Entity
+@JsonFilter(INCLUSION_FILTER)
 public class Product {
 
     @Id
