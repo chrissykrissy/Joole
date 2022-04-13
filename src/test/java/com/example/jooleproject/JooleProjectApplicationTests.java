@@ -39,7 +39,8 @@ class JooleProjectApplicationTests {
         User user = new User("xsyjeon", "password", "customer");
 
         //create proj
-        Project proj = new Project();
+        String name = "project";
+        Project proj = new Project(name);
 
         //set project user
         proj.setUser(user);

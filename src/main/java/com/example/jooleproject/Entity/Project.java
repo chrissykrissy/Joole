@@ -1,11 +1,19 @@
 package com.example.jooleproject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Project {
 
@@ -13,15 +21,21 @@ public class Project {
     @GeneratedValue
     private Integer projectId;
 
+    private String projectName;
+
+    @CreatedDate
     private Timestamp timeCreated;
 
+    @LastModifiedDate
     private Timestamp timeUpdated;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIgnore
     private List<ProjectProduct> projectProduct;
 
 
@@ -40,7 +54,6 @@ public class Project {
     public Timestamp getTimeCreated() {
         return timeCreated;
     }
-
     public Timestamp getTimeUpdated() {
         return timeUpdated;
     }
@@ -61,12 +74,6 @@ public class Project {
     }
 
 
-    public Project(Integer projectId, Timestamp timeCreated, Timestamp timeUpdated) {
-        this.projectId = projectId;
-        this.timeCreated = timeCreated;
-        this.timeUpdated = timeUpdated;
-    }
-
     public List<ProjectProduct> getProjectProduct() {
         return projectProduct;
     }
@@ -85,4 +92,15 @@ public class Project {
     }
 
 
+    public Project(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 }

@@ -16,8 +16,8 @@ public class UserServiceimpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Transactional
-    public User Create() {
-        User user = new User("bob@gmail.com", "customer","hello");
+    public User Create(String username, String role, String password) {
+        User user = new User(username, role,password);
         userRepository.save(user);
         return user;
     }
@@ -42,12 +42,26 @@ public class UserServiceimpl implements UserService {
     }
 
 
+    public User Get(Integer userId){
+        List<User> list= userRepository.findByUserId(userId);
+        for(User p : list)
+        {
+            return p;
+        }
+        return null;
+    }
 
-    public void Delete(String username) {
+
+
+    public void Delete(Integer username) {
         List<User> list= userRepository.findByUserId(username);
         for(User p: list){
             userRepository.delete(p);
         }
 
+    }
+
+    public List<User> list() {
+        return userRepository.findAll();
     }
 }

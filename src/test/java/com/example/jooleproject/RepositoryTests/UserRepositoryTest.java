@@ -20,7 +20,7 @@ public class UserRepositoryTest {
     @Test
     public void saveTest(){
         User user = new User();
-        user.setUserId("2");
+        user.setUsername("hiello");
         user.setPassword("hi");
         user.setRole("customer");
 
@@ -31,7 +31,7 @@ public class UserRepositoryTest {
     }
     @Test
     public void findByID(){
-        List<User> result =userRepository.findByUserId("2");
+        List<User> result =userRepository.findByUserId(2);
         System.out.println(result);
         Assert.assertNotEquals(null, result);
     }

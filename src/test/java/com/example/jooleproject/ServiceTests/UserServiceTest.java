@@ -18,7 +18,7 @@ public class UserServiceTest {
 
     @Test
     public void create() throws Exception{
-        User result = userServiceimpl.Create();
+        User result = userServiceimpl.Create("hielo", "customer", "hiello");
         Assert.assertNotNull(result);
     }
 
@@ -30,14 +30,14 @@ public class UserServiceTest {
 
     @Test
     public void Update(){
-        User before = userServiceimpl.Create();
+        User before = userServiceimpl.Create("hielo", "customer", "hiello");
         User after = userServiceimpl.Update(before);
         Assert.assertEquals(before, after);
     }
     @Test
     public void Delete(){
-        String username = "bob@gmail.com";
-        userServiceimpl.Delete(username);
+        Integer userId = 2;
+        userServiceimpl.Delete(userId);
         Assert.assertEquals(userServiceimpl.Read(),"");
     }
 }
