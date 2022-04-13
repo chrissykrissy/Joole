@@ -1,6 +1,8 @@
 package com.example.jooleproject.Service.Impl;
 
 import com.example.jooleproject.Entity.Product;
+import com.example.jooleproject.Entity.ProductType;
+import com.example.jooleproject.Entity.TechnicalDetail;
 import com.example.jooleproject.Repository.ProductRepository;
 import com.example.jooleproject.Service.ProductService;
 import com.sun.xml.bind.v2.model.core.ID;
@@ -55,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Product findByID(Integer id){
-        return repository.findById(id).get();
+        return repository.findById(id).orElse(null);
     }
 
     public Product update(Product prod){
@@ -70,7 +72,12 @@ public class ProductServiceImpl implements ProductService {
         toUpdate.setManufacturer(manu);
         toUpdate.setSeries(ser);
         toUpdate.setModel(model);
+        repository.save(toUpdate);
         return toUpdate;
+    }
+
+    public List<Product> findByTechnicalDetail(TechnicalDetail td){
+        return repository.findByTechnicalDetail(td).orElse(null);
     }
 
 
@@ -80,5 +87,22 @@ public class ProductServiceImpl implements ProductService {
         for (Product p : list) {
             repository.delete(p);
         }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void save(Product p, ProductType pt, TechnicalDetail td) {
+        p.setProductType(pt);
+        p.setTechnicalDetail(td);
+        repository.save(p);
+    }
+
+    @Override
+    public void save(Product p) {
+        repository.save(p);
     }
 }

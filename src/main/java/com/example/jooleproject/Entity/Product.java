@@ -7,10 +7,10 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
-import static com.example.jooleproject.Controller.ProductController.INCLUSION_FILTER;
+//import static com.example.jooleproject.Controller.ProductController.INCLUSION_FILTER;
 
 @Entity
-@JsonFilter(INCLUSION_FILTER)
+//@JsonFilter(INCLUSION_FILTER)
 public class Product {
 
     @Id
@@ -21,15 +21,16 @@ public class Product {
             mappedBy = "product",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private List<ProjectProduct> projProduct;
 
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "productType_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ProductType productType;
 
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "technicalDetail_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private TechnicalDetail technicalDetail;
 
     private String manufacturer;

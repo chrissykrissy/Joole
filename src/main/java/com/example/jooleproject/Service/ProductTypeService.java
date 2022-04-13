@@ -6,7 +6,7 @@ import com.example.jooleproject.Entity.ProductType;
 import java.util.List;
 
 public interface ProductTypeService {
-    ProductType create(String useType, String application, String mountingLocation, String accessories, int year);
+    ProductType create(Product p, String useType, String application, String mountingLocation, String accessories, int year);
     String readAll();
     List<Product> findByUseType(String useType);
     List<ProductType> findByAll(String useType, String application, String mountingLocation, String accessories, int year);
@@ -14,5 +14,6 @@ public interface ProductTypeService {
     ProductType update(ProductType pt);
     ProductType updateAll(int id, String useType, String application, String mountingLocation, String accessories, int year);
     void deleteByUseType(String useType);
+    void save(ProductType pt);
 
 }

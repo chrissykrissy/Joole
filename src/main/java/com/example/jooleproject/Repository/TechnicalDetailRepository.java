@@ -28,6 +28,9 @@ public interface TechnicalDetailRepository extends JpaRepository<TechnicalDetail
     List<TechnicalDetail> findByHeightBetween(int first, int second);
     List<TechnicalDetail> findByHeightBefore(int height);
 
+    List<TechnicalDetail> findByAirflowBetweenAndMaxPowerBetweenAndSoundMaxBetweenAndDiameterBetweenAndHeightBetween
+            (int airStart, int airEnd, int powerStart, int powerEnd, int soundStart, int soundEnd, int diaStart, int diaEnd, int heightStart, int heightEnd);
+
     List<TechnicalDetail> findByAirflowAndMaxPowerAndSoundMaxAndDiameterAndHeight(int airflow, int maxPower, int soundMax, int diameter, int height);
 
 }
