@@ -1,5 +1,7 @@
 package com.example.jooleproject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class ProductType {
     private Integer productType_id;
 
     @OneToOne (mappedBy = "productType", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonIgnore
     private Product product;
 
     private String useType;

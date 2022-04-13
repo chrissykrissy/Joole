@@ -15,12 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/CustomerController")
 public class ProductController {
-    public static final String INCLUSION_FILTER = "manufacturer";
+//    public static final String INCLUSION_FILTER = "manufacturer";
     @Autowired
     private ProductService productService;
     @Autowired
@@ -44,19 +48,6 @@ public class ProductController {
         }
     }
 
-    //create product
-//    @PostMapping("/products/create")
-//    public ResponseEntity<?> create(@RequestParam ("Manufacturer") String manufacturer,
-//                          @RequestParam ("Series") String series,
-//                          @RequestParam ("Model") String model){
-//        Product created = productService.create(manufacturer, series, model);
-//        if (created != null){
-//            return new ResponseEntity<>(productService.list(), HttpStatus.OK);
-//        }else{
-//            return new ResponseEntity<>("{\"Error\":\"Product could not be created!\"}", HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
     //create product with all info
     @PostMapping("/products/create")
     public ResponseEntity<?> create(@RequestParam("Manufacturer") String manufacturer,
@@ -73,10 +64,9 @@ public class ProductController {
                                     @RequestParam ("Diameter") int diameter,
                                     @RequestParam ("Height") int height){
         Product created = productService.create(manufacturer, series, model);
-        ProductType createPT = productTypeService.create(useType, application, mountingLocation, accessories, year);
-        TechnicalDetail createTD = techDetailService.create(airflow, maxPower, soundMax, diameter, height);
-        created.setProductType(createPT);
-        created.setTechnicalDetail(createTD);
+        ProductType createPT = productTypeService.create(created, useType, application, mountingLocation, accessories, year);
+        TechnicalDetail createTD = techDetailService.create(created, airflow, maxPower, soundMax, diameter, height);
+        productService.save(created, createPT, createTD);
 
         if (created != null && createPT != null && createTD != null){
             return new ResponseEntity<>(productService.list(), HttpStatus.OK);
@@ -85,106 +75,21 @@ public class ProductController {
         }
     }
 
-
-    //find by given para
-    @GetMapping("/products/findBy")
-    public ResponseEntity<?> findBy(@RequestParam(required = false, name = "Manufacturer") String manufacturer,
-                                    @RequestParam (required = false, name = "Series") String series,
-                                    @RequestParam (required = false, name = "Model") String model,
-                                    @RequestParam (required = false, name = "UseType") String useType,
-                                    @RequestParam (required = false, name = "Application") String application,
-                                    @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
-                                    @RequestParam (required = false, name = "Accessories") String accessories,
-                                    @RequestParam (required = false, name = "Year") int year,
-                                    @RequestParam (required = false, name = "Air Flow") int airflow,
-                                    @RequestParam (required = false, name = "Max Power") int maxPower,
-                                    @RequestParam (required = false, name = "Sound Max") int soundMax,
-                                    @RequestParam (required = false, name = "Diameter") int diameter,
-                                    @RequestParam (required = false, name = "Height") int height) {
-
-
-
-        List<Product> list1 = null;
-        List<Product> list2 = null;
-        List<Product> list3 = null;
-
-        if (manufacturer != null){
-            list1 = productService.findByManufacturer(manufacturer);
-        }
-
-        if (series != null){
-            list2 = productService.findBySeries(series);
-        }
-
-        if (model != null){
-            list3 = productService.findByModel(model);
-        }
-
-        list1.retainAll(list2);
-
-
-
-//        List<Product> list = productService.list();
-//        if (manufacturer != null){
-//            list = productService.findByManufacturer(manufacturer);
-//        }
-//        if(series != null){
-//            List<Product> seriesList = productService.findBySeries(series);
-//            for(Product p : seriesList){
-//                if(list.contains(p)){
-//
-//                }
-//            }
-//        }
-
-        List<Product> full = productService.list();
-        MappingJacksonValue tempMap = new MappingJacksonValue(full);
-        PropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(manufacturer, series);
-        FilterProvider filters = new SimpleFilterProvider().addFilter(INCLUSION_FILTER, filter);
-        tempMap.setFilters(filters);
-//        return tempMap;
-
-
-//        try {
-//            full = productService.list();
-//            if (manufacturer != null) {
-//                SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("product_id", "manufacturer");
-//                FilterProvider filters = new SimpleFilterProvider().addFilter("mechanicalFilter", filter);
-//                tempMap = new MappingJacksonValue(full);
-//                tempMap.setFilters(filters);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>("{\"error\":\"" + "product could not be found!" + "\"}", HttpStatus.BAD_REQUEST);
-//        }
-        return new ResponseEntity<>(tempMap, HttpStatus.OK);
-    }
-
-    /*
-    @GetMapping("/findAllProductsInProjectId/{projectId}")
-    public ResponseEntity<?> findAllProductsInProjectId(@PathVariable int projectId) {
-        List<ProjectProduct> temp;
-        MappingJacksonValue tempMap;
-        try {
-            temp = projectProductService.findAllProducts(projectId);
-            SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("projectProductId","product");
-            FilterProvider filters = new SimpleFilterProvider().addFilter("ProjectProductFilter", filter);
-            tempMap = new MappingJacksonValue(temp);
-            tempMap.setFilters(filters);
-        } catch(Exception e) {
-            return new ResponseEntity<>("{\"error\":\""+e.getMessage() + "\"}", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(tempMap, HttpStatus.CREATED);
-    }
-     */
-
-
-
     //find by Mechanical detail
     @GetMapping("/products/byMechanical")
-    public ResponseEntity<?> findByManuSeriesModel(@RequestParam(required = false, name = "Manufacture") String manufacturer,
+    public ResponseEntity<?> findByManuSeriesModel(@RequestParam(name = "Manufacture") String manufacturer,
                                                    @RequestParam(required = false, name = "Series") String series,
                                                    @RequestParam(required = false, name = "Model") String model){
-        List<Product> list = productService.findByAll(manufacturer, series, model);
+        List<Product> list = null;
+        if (series == null && model == null){
+            list = productService.findByManufacturer(manufacturer);
+        }else{
+            try {
+                list = productService.findByAll(manufacturer, series, model);
+            }catch (Exception e){
+                return new ResponseEntity<>("{\"Error\":\"Product could not be found!\"}", HttpStatus.BAD_REQUEST);
+            }
+        }
 
         if (list.isEmpty()){
             return new ResponseEntity<>("{\"Error\":\"Product could not be found!\"}", HttpStatus.BAD_REQUEST);
@@ -194,86 +99,205 @@ public class ProductController {
 
     //find By ProductType
     @GetMapping("/products/byProductType")
-    public ResponseEntity<?> findByProductType(@RequestParam (required = false, name = "UseType") String useType,
-                                                   @RequestParam (required = false, name = "Application") String application,
-                                                   @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
-                                                   @RequestParam (required = false, name = "Accessories") String accessories,
-                                                   @RequestParam (required = false, name = "Year") int year){
+    public ResponseEntity<?> findByProductType(@RequestParam (name = "UseType") String useType,
+                                                   @RequestParam (name = "Application") String application,
+                                                   @RequestParam (name = "Mounting Location") String mountingLocation,
+                                                   @RequestParam (name = "Accessories") String accessories,
+                                                   @RequestParam (name = "Year") int year){
+
         List<ProductType> list = productTypeService.findByAll(useType, application, mountingLocation, accessories, year);
+        List<Product> ret = new ArrayList<>();
+        for (ProductType pt : list){
+            ret.add(pt.getProduct());
+        }
 
         if (list.isEmpty()){
             return new ResponseEntity<>("{\"Error\":\"Product could not be found!\"}", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
     //find By TechDetail
     @GetMapping("/products/byTechDetail")
-    public ResponseEntity<?> findByTechDetail(@RequestParam ("Air Flow") int airflow,
-                                                   @RequestParam (required = false, name = "Max Power") int maxPower,
-                                                   @RequestParam (required = false, name = "Sound Max") int soundMax,
-                                                   @RequestParam (required = false, name = "Diameter") int diameter,
-                                                   @RequestParam (required = false, name = "Height") int height){
-        List<TechnicalDetail> list = techDetailService.findByAll(airflow, maxPower, soundMax, diameter, height);
+    public ResponseEntity<?> findByTechDetail(//@RequestBody TechnicalDetail technicalDetail){
+            @RequestParam (required = false, name = "Air Flow From") Integer airflowFrom,
+              @RequestParam (required = false, name = "Air Flow End") Integer airFlowEnd,
+              @RequestParam (required = false, name = "Max Power From") Integer powerFrom,
+              @RequestParam (required = false, name = "Max Power End") Integer powerEnd,
+              @RequestParam (required = false, name = "Sound Max From") Integer soundFrom,
+              @RequestParam (required = false, name = "Sound Max End") Integer soundEnd,
+              @RequestParam (required = false, name = "Diameter From") Integer diameterFrom,
+              @RequestParam (required = false, name = "Diameter End") Integer diameterEnd,
+              @RequestParam (required = false, name = "Height From") Integer heightFrom,
+              @RequestParam (required = false, name = "Height End") Integer heightEnd){
 
-        if (list.isEmpty()){
+        List<Product> list = null;
+        if (airflowFrom != null && airFlowEnd != null && powerFrom != null && powerEnd != null && soundFrom != null && soundEnd != null && diameterFrom != null && diameterEnd != null && heightEnd!= null && heightFrom != null){
+            list = techDetailService.findByRange(airflowFrom, airFlowEnd, powerFrom, powerEnd, soundFrom, soundEnd, diameterFrom, diameterEnd, heightFrom, heightEnd);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+
+        List<List<TechnicalDetail>> nonNullList = new ArrayList<>();
+        List<List<Product>> ret = new ArrayList<>();
+
+        List<TechnicalDetail> airList;
+        List<TechnicalDetail> powerList;
+        List<TechnicalDetail> soundList;
+        List<TechnicalDetail> diaList;
+        List<TechnicalDetail> heightList;
+
+        if (airflowFrom != null && airFlowEnd != null){
+            airList = techDetailService.findByAirflowRange(airflowFrom, airFlowEnd);
+//            System.out.println(airList);
+            nonNullList.add(airList);
+        }
+
+        if (powerFrom != null && powerEnd != null){
+            powerList = techDetailService.findByPowerRange(powerFrom, powerEnd);
+            nonNullList.add(powerList);
+        }
+
+        if (soundFrom != null && soundEnd != null){
+            soundList = techDetailService.findBySoundRange(soundFrom, soundEnd);
+            nonNullList.add(soundList);
+        }
+
+        if (diameterFrom != null && diameterEnd != null){
+            diaList = techDetailService.findByDiaRange(diameterFrom, diameterEnd);
+            nonNullList.add(diaList);
+        }
+
+        if (heightFrom != null && heightEnd != null){
+            heightList = techDetailService.findByHeightRange(heightFrom, heightEnd);
+            nonNullList.add(heightList);
+        }
+
+        for (int i = 0; i < nonNullList.size()-1; i++){
+            nonNullList.get(0).retainAll(nonNullList.get(i+1));
+        }
+
+        for (TechnicalDetail td : nonNullList.get(0)){
+            ret.add(productService.findByTechnicalDetail(td));
+        }
+
+
+
+        if (nonNullList.isEmpty()){
             return new ResponseEntity<>("{\"Error\":\"Product could not be found!\"}", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
+
 
     //update mechanical
     @PostMapping("products/updateByMechanical")
-
-    //(String str, int num) num = 1, manu
-//    num = 2 , series
-    public ResponseEntity<?> findByManuSeriesModel(@RequestParam(name = "product_id") int productID,
+    public ResponseEntity<?> updateByManuSeriesModel(@RequestParam(name = "product_id") int productID,
                                                    @RequestParam(name ="Manufacture",required = false) String manufacturer,
                                                    @RequestParam(required = false, name = "Series") String series,
                                                    @RequestParam(required = false, name = "Model") String model){
-        Product toUpdate = productService.updateAll(productID, manufacturer, series, model);
-        if (toUpdate != null){
+        try{
+            Product toUpdate = productService.findByID(productID);
+            if (manufacturer != null){
+                toUpdate.setManufacturer(manufacturer);
+            }
+            if (series != null){
+                toUpdate.setSeries(series);
+            }
+            if (model != null){
+                toUpdate.setModel(model);
+            }
+            productService.save(toUpdate);
             return new ResponseEntity<>(toUpdate, HttpStatus.OK);
-        }else{
+        }catch (Exception e){
             return new ResponseEntity<>("{\"Error\":\"Product could not be updated!\"}", HttpStatus.BAD_REQUEST);
         }
     }
 
+
     //update type
     @PostMapping("products/updateByProductType")
-    public ResponseEntity<?> findByManuSeriesModel(@RequestParam("ID") int ptID,
+    public ResponseEntity<?> updateByType(@RequestParam("ID") int ptID,
                                                    @RequestParam (required = false, name = "UseType") String useType,
                                                    @RequestParam (required = false, name = "Application") String application,
                                                    @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
                                                    @RequestParam (required = false, name = "Accessories") String accessories,
-                                                   @RequestParam (required = false, name = "Year") int year) {
+                                                   @RequestParam (required = false, name = "Year") Integer year) {
 
-        ProductType pt = productTypeService.updateAll(ptID, useType, application, mountingLocation, accessories, year);
-        if (pt != null){
-            return new ResponseEntity<>(pt.getProduct(), HttpStatus.OK);
-        }else{
+        try{
+            ProductType pt = productTypeService.findByID(ptID);
+            if(useType != null){
+                pt.setUseType(useType);
+            }
+            if(application != null){
+                pt.setApplication(application);
+            }
+            if(mountingLocation != null){
+                pt.setMountingLocation(mountingLocation);
+            }
+            if(accessories != null){
+                pt.setAccessories(accessories);
+            }
+            if(year != null){
+                pt.setYear(year);
+            }
+            Product p = pt.getProduct();
+            p.setProductType(pt);
+            productTypeService.save(pt);
+            productService.save(p);
+            return new ResponseEntity<>(p, HttpStatus.OK);
+        }catch (Exception e){
             return new ResponseEntity<>("{\"Error\":\"Product could not be updated!\"}", HttpStatus.BAD_REQUEST);
         }
     }
 
     //update Technical
     @PostMapping("products/updateByTechnical")
-    public ResponseEntity<?> findByTechnicalDetail(@RequestParam("ID") int tdID,
-                                                   @RequestParam (required = false, name = "Air Flow") int airflow,
-                                                   @RequestParam (required = false, name = "Max Power") int maxPower,
-                                                   @RequestParam (required = false, name = "Sound Max") int soundMax,
-                                                   @RequestParam (required = false, name = "Diameter") int diameter,
-                                                   @RequestParam (required = false, name = "Height") int height) {
+    public ResponseEntity<?> updateByTechnicalDetail(@RequestParam("ID") int tdID,
+                                                   @RequestParam (required = false, name = "Air Flow") Integer airflow,
+                                                   @RequestParam (required = false, name = "Max Power") Integer maxPower,
+                                                   @RequestParam (required = false, name = "Sound Max") Integer soundMax,
+                                                   @RequestParam (required = false, name = "Diameter") Integer diameter,
+                                                   @RequestParam (required = false, name = "Height") Integer height) {
 
-        TechnicalDetail td = techDetailService.updateAll(tdID, airflow, maxPower, soundMax, diameter, height);
-        if (td != null){
-            return new ResponseEntity<>(td.getProduct(), HttpStatus.OK);
-        }else{
+        try{
+            TechnicalDetail td = techDetailService.findByID(tdID);
+            if(airflow != null){
+                td.setAirflow(airflow);
+            }
+            if(maxPower != null){
+                td.setMaxPower(maxPower);
+            }
+            if(soundMax != null){
+                td.setSoundMax(soundMax);
+            }
+            if(diameter != null){
+                td.setDiameter(diameter);
+            }
+            if(height != null){
+                td.setHeight(height);
+            }
+            Product p = td.getProduct();
+            p.setTechnicalDetail(td);
+            techDetailService.save(td);
+            productService.save(p);
+            return new ResponseEntity<>(p, HttpStatus.OK);
+        }catch (Exception e){
             return new ResponseEntity<>("{\"Error\":\"Product could not be updated!\"}", HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    //delete by id
+    @PostMapping("products/deleteById")
+    public ResponseEntity<?> deleteById(@RequestParam("ID") Integer id){
+        productService.deleteById(id);
+        if (productService.findByID(id) == null){
+            return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("{\"Error\":\"Product could not be deleted!\"}", HttpStatus.BAD_REQUEST);
         }
     }
 
-    //delete by id?
 
 
     //Delete product by manu
@@ -281,28 +305,6 @@ public class ProductController {
     public ResponseEntity<?> deleteByMechanical(@RequestParam("Manufacturer") String manu){
         productService.deleteByManufacturer(manu);
         if (productService.findByManufacturer(manu).isEmpty()){
-            return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("{\"Error\":\"Product could not be deleted!\"}", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    //Delete product by UseType
-    @PostMapping("products/deleteByProductType")
-    public ResponseEntity<?> deleteByUseType(@RequestParam("Use Type") String useType){
-        productTypeService.deleteByUseType(useType);
-        if (productTypeService.findByUseType(useType).isEmpty()){
-            return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("{\"Error\":\"Product could not be deleted!\"}", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    //delete by Tech
-    @PostMapping("products/deleteByTechnicalDetail")
-    public ResponseEntity<?> deleteByTechnicalDetail(@RequestParam("Height") int height){
-        techDetailService.deleteByHeight(height);
-        if (techDetailService.findByHeight(height).isEmpty()){
             return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("{\"Error\":\"Product could not be deleted!\"}", HttpStatus.BAD_REQUEST);

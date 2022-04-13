@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ProductTypeRepository extends JpaRepository<ProductType, Integer>{
 
-//    ProductType findByProductType_id(int id);
-
     List<ProductType> findByUseType(String useType);
 
     List<ProductType> findByApplication(String app);

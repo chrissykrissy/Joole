@@ -1,13 +1,13 @@
 package com.example.jooleproject.Repository;
 
 import com.example.jooleproject.Entity.Product;
+import com.example.jooleproject.Entity.TechnicalDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-//    Product findByProduct_id(Integer id);
 
     List<Product> findByManufacturer(String manu);
 
@@ -17,6 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByManufacturerAndSeriesAndModel(String manu, String Series, String Model);
 
-//    List<Product> findByManufacturerOrSeriesOrModel()
+    Optional<List<Product>> findByTechnicalDetail(TechnicalDetail td);
 
 }

@@ -1,5 +1,7 @@
 package com.example.jooleproject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +11,7 @@ public class TechnicalDetail {
     private Integer technicalDetail_id;
 
     @OneToOne (mappedBy = "technicalDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonIgnore
     private Product product;
 
     private int airflow;

@@ -26,8 +26,9 @@ public class TechDetailServiceImpl implements TechDetailService {
     }
 
     @Transactional
-    public TechnicalDetail create(int airflow, int maxPower, int soundMax, int diameter, int height){
+    public TechnicalDetail create(Product p, int airflow, int maxPower, int soundMax, int diameter, int height){
         TechnicalDetail tech = new TechnicalDetail(airflow, maxPower, soundMax, diameter, height);
+        tech.setProduct(p);
         repo.save(tech);
         return tech;
     }
@@ -59,6 +60,8 @@ public class TechDetailServiceImpl implements TechDetailService {
         return list;
     }
 
+
+
     @Override
     public TechnicalDetail findByID(Integer id) {
         return repo.findById(id).get();
@@ -81,11 +84,77 @@ public class TechDetailServiceImpl implements TechDetailService {
         return toUpdate;
     }
 
+    @Override
+    public List<TechnicalDetail> findByAirflowRange(int airStart, int airEnd) {
+//        List<TechnicalDetail> list =
+                return repo.findByAirflowBetween(airStart,airEnd);
+//        List<Product> retList = new ArrayList<>();
+//        for (TechnicalDetail td : list){
+//            retList.add(td.getProduct());
+//        }
+//        return retList;
+    }
+
+    @Override
+    public List<TechnicalDetail> findByPowerRange(int powerStart, int powerEnd) {
+        List<TechnicalDetail> list = repo.findByMaxPowerBetween(powerStart,powerEnd);
+//        List<Product> retList = new ArrayList<>();
+//        for (TechnicalDetail td : list){
+//            retList.add(td.getProduct());
+//        }
+        return list;
+    }
+
+    @Override
+    public List<TechnicalDetail> findBySoundRange(int soundStart, int soundEnd) {
+        List<TechnicalDetail> list = repo.findBySoundMaxBetween(soundStart,soundEnd);
+//        List<Product> retList = new ArrayList<>();
+//        for (TechnicalDetail td : list){
+//            retList.add(td.getProduct());
+//        }
+        return list;
+    }
+
+    @Override
+    public List<TechnicalDetail> findByDiaRange(int diaStart, int diaEnd) {
+        List<TechnicalDetail> list = repo.findByDiameterBetween(diaStart,diaEnd);
+//        List<Product> retList = new ArrayList<>();
+//        for (TechnicalDetail td : list){
+//            retList.add(td.getProduct());
+//        }
+        return list;
+    }
+
+    @Override
+    public List<TechnicalDetail> findByHeightRange(int heightStart, int heightEnd) {
+        List<TechnicalDetail> list = repo.findByHeightBetween(heightStart,heightEnd);
+//        List<Product> retList = new ArrayList<>();
+//        for (TechnicalDetail td : list){
+//            retList.add(td.getProduct());
+//        }
+        return list;
+    }
+
+    @Override
+    public List<Product> findByRange(int airStart, int airEnd, int powerStart, int powerEnd, int soundStart, int soundEnd, int diaStart, int diaEnd, int heightStart, int heightEnd) {
+        List<TechnicalDetail> list = repo.findByAirflowBetweenAndMaxPowerBetweenAndSoundMaxBetweenAndDiameterBetweenAndHeightBetween(airStart, airEnd, powerStart, powerEnd, soundStart, soundEnd, diaStart, diaEnd, heightStart, heightEnd);
+        List<Product> retList = new ArrayList<>();
+        for (TechnicalDetail td : list){
+            retList.add(td.getProduct());
+        }
+        return retList;
+    }
+
     public void deleteByHeight(int h){
         List<TechnicalDetail> list = repo.findByHeightAfter(h);
         for (TechnicalDetail td : list){
             repo.delete(td);
         }
+    }
+
+    @Override
+    public void save(TechnicalDetail td) {
+        repo.save(td);
     }
 
 }

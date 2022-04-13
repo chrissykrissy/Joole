@@ -25,8 +25,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Transactional
-    public ProductType create(String useType, String application, String mountingLocation, String accessories, int year){
+    public ProductType create(Product p, String useType, String application, String mountingLocation, String accessories, int year){
         ProductType pt = new ProductType(useType, application, mountingLocation, accessories, year);
+        pt.setProduct(p);
         repo.save(pt);
         return pt;
     }
@@ -41,6 +42,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     public List<Product> findByUseType(String useType){
+
         List<ProductType> list = repo.findByUseType(useType);
         List<Product> retList = new ArrayList<>();
         for (ProductType pt : list){
@@ -88,6 +90,11 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         for (ProductType p : list){
             repo.delete(p);
         }
+    }
+
+    @Override
+    public void save(ProductType pt) {
+        repo.save(pt);
     }
 
 }

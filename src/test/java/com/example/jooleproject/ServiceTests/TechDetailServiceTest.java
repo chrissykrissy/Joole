@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TechDetailServiceTest {
@@ -27,6 +29,14 @@ public class TechDetailServiceTest {
     public void readAll() throws Exception{
         String str = techServiceImpl.readAll();
         Assert.assertNotNull(str);
+    }
+
+    @Test
+    public void findByAirflowRange(){
+        techServiceImpl.create();
+        List<TechnicalDetail> list = techServiceImpl.findByAirflowRange(4000,6000);
+        System.out.println(list.get(0).toString());
+        Assert.assertNotNull(list);
     }
 
     @Test
