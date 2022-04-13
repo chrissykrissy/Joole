@@ -4,15 +4,15 @@ import com.example.jooleproject.Entity.User;
 import com.example.jooleproject.Repository.ProjectRepository;
 
 public interface ProjectService {
-    Project Create();
+    Project Create(String projectName);
 
-    Boolean create(Project project);
+    Boolean create(Project project, User user);
 
     String Read();
 
     Project Get(Integer Id);
 
-    Project Update(Project project);
+    Project Update(Integer id, String updatename);
 
     void Delete(Integer id);
 

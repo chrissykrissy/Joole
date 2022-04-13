@@ -16,7 +16,8 @@ public class ProjectServiceTest {
 
     @Test
     public void Create() throws Exception{
-        Project result = projectServiceimpl.Create();
+        String projectName = "hello";
+        Project result = projectServiceimpl.Create(projectName);
         Assert.assertNotNull(result);
     }
 
@@ -27,14 +28,17 @@ public class ProjectServiceTest {
     }
     @Test
     public void Get() throws Exception{
-        Project result = projectServiceimpl.Create();
+        String projectName = "hello";
+        Project result = projectServiceimpl.Create(projectName);
         Project project = projectServiceimpl.Get(1);
     }
 
     @Test
     public void Update() throws Exception{
-        Project before = projectServiceimpl.Create();
-        Project after = projectServiceimpl.Update(before);
+        String projectName = "hello";
+        Project before = projectServiceimpl.Create(projectName);
+        Integer id = before.getProjectId();
+        Project after = projectServiceimpl.Update(id, projectName);
         Assert.assertEquals(before, after);
 
     }

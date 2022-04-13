@@ -36,8 +36,8 @@ public class UserServiceTest {
     }
     @Test
     public void Delete(){
-        String username = "bob@gmail.com";
-        userServiceimpl.Delete(username);
+        Integer userId = 2;
+        userServiceimpl.Delete(userId);
         Assert.assertEquals(userServiceimpl.Read(),"");
     }
 }

@@ -11,9 +11,11 @@ public interface UserService {
 
     String Read();
 
+    User Get(Integer userId);
+
     User Update(User user);
 
-    void Delete(String username);
+    void Delete(Integer username);
 
     List<User> list();
 

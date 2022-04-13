@@ -1,37 +1,54 @@
 package com.example.jooleproject.Entity;
 
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class User {
 
     @Id
-//    @GeneratedValue (strategy=GenerationType.IDENTITY)
-    private String userId;
+    @GeneratedValue
+    private Integer userId;
+
+    private String username;
 
     private String role;
 
     private String password;
 
-    private Timestamp timeCreated;
+    @CreatedDate
+    private Date timeCreated;
 
-    private Timestamp timeUpdated;
+    @LastModifiedDate
+    private Date timeUpdated;
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "user",
             cascade = {CascadeType.REMOVE})
     private List<Project> project;
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRole() {
@@ -50,27 +67,23 @@ public class User {
         this.password = password;
     }
 
-    public Timestamp getTimeCreated() {
+    public Date getTimeCreated() {
         return timeCreated;
     }
 
-    public void setTimeCreated(Timestamp timeCreated) {
+    public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
     }
 
-    public Timestamp getTimeUpdated() {
+    public Date getTimeUpdated() {
         return timeUpdated;
-    }
-
-    public void setTimeUpdated(Timestamp timeUpdated) {
-        this.timeUpdated = timeUpdated;
     }
 
     public User() {
     }
 
-    public User(String userId, String role, String password) {
-        this.userId = userId;
+    public User(String username, String role, String password) {
+        this.username = username;
         this.role = role;
         this.password = password;
     }

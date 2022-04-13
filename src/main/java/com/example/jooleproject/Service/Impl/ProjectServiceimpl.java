@@ -20,13 +20,14 @@ public class ProjectServiceimpl implements ProjectService {
 
 
     @Transactional
-    public Project Create() {
-        Project project = new Project();
+    public Project Create( String projectName) {
+        Project project = new Project(projectName);
         projectRepository.save(project);
         return project;
     }
 
-    public Boolean create(Project project) {
+    public Boolean create(Project project, User user) {
+        project.setUser(user);
         projectRepository.save(project);
         return true;
     }
@@ -42,13 +43,15 @@ public class ProjectServiceimpl implements ProjectService {
     }
 
     public Project Get(Integer Id) {
-        return projectRepository.getById(Id);
+        Optional<Project> list = projectRepository.findById(Id);
+        Project project = list.get();
+        return project;
     }
 
 
-    public Project Update(Project project) {
-        Timestamp instant = Timestamp.from(Instant.now());
-        project.setTimeUpdated(instant);
+    public Project Update(Integer id, String updatename) {
+        Project project = projectRepository.getById(id);
+        project.setProjectName(updatename);
         return project;
     }
 

@@ -26,16 +26,19 @@ public class ConsumerController {
     @Autowired
     ProductServiceImpl productServiceimpl;
 
+    //http://localhost:8080/Consumer/addProject?userId=1&projectname=bobo
     @PostMapping("/addProject")
-    public ResponseEntity<?> addProject(){
-        Project projectToAdd = new Project();
-        boolean isSuccessful = projectServiceimpl.create(projectToAdd);
+    public ResponseEntity<?> addProject(@RequestParam(name = "userId") Integer userId, @RequestParam(name="projectname") String projectname){
+        User user = userServiceimpl.Get(userId);
+        Project projectToAdd = new Project(projectname);
+        Boolean isSuccessful = projectServiceimpl.create(projectToAdd, user);
         if(!isSuccessful){
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when creating new project!\"}",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(projectToAdd, HttpStatus.OK);
 
     }
+    //http://localhost:8080/Consumer/deleteProject?projectId=2
     @PostMapping("/deleteProject")
     public ResponseEntity<?> deleteProject( @RequestParam(name="projectId") Integer projectId){
         Project projectToDelete = projectServiceimpl.Get(projectId);
@@ -45,6 +48,7 @@ public class ConsumerController {
         }
         return new ResponseEntity<>(projectToDelete, HttpStatus.OK);
     }
+    //http://localhost:8080/Consumer/readProject?projectId=1
     @GetMapping("/readProject")
     public ResponseEntity<?> read(@RequestParam(name="projectId") Integer projectId) {
         Project project = projectServiceimpl.Get(projectId);
@@ -55,6 +59,20 @@ public class ConsumerController {
             return new ResponseEntity<>(project, HttpStatus.OK);
         }
 
+    }
+    //http://localhost:8080/Consumer/updatename?projectId=1&projectname=read
+    @PostMapping("/updatename")
+    public ResponseEntity<?> updateName(@RequestParam(name = "projectId") Integer projectId, @RequestParam(name="projectname") String projectname)
+    {
+        Project project = projectServiceimpl.Get(projectId);
+        project.setProjectName(projectname);
+
+        if(project.getProjectName() != null){
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("{\"error\":\"sth wrong happens when updating user!\"}",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/productToProjectView")

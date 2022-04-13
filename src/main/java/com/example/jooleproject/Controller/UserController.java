@@ -39,9 +39,10 @@ public class UserController {
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
     }
+    //http://localhost:8080/UserController/create?username=hi&role=customer&password=hello
     @PostMapping("/create")
-    public ResponseEntity<?> addUser( @RequestParam(name="userId") String userId,@RequestParam(name="role") String role, @RequestParam(name="password") String password){
-        User newuser = userServiceimpl.Create(userId, role, password );
+    public ResponseEntity<?> addUser( @RequestParam(name="username") String username,@RequestParam(name="role") String role, @RequestParam(name="password") String password){
+        User newuser = userServiceimpl.Create(username, role, password );
         if(newuser != null)
         {
             return new ResponseEntity<>(newuser, HttpStatus.OK);
@@ -50,8 +51,9 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when creating new user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
+    //http://localhost:8080/UserController/delete?userId=1
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam(name="userId") String userId)
+    public ResponseEntity<?> deleteUser(@RequestParam(name="userId") Integer userId)
     {
         userServiceimpl.Delete(userId);
         if(userServiceimpl.Get(userId) == null){
@@ -61,8 +63,9 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when deleting user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/read")
-    public ResponseEntity<?> readUser(@RequestParam(name="userId") String userId){
+    //http://localhost:8080/UserController/read?userId=1
+    @GetMapping("/read")
+    public ResponseEntity<?> readUser(@RequestParam(name="userId") Integer userId){
         User user = userServiceimpl.Get(userId);
         if (user == null) {
             return new ResponseEntity<>("{\"error\":\"user not found!\"}", HttpStatus.BAD_REQUEST);
@@ -71,13 +74,12 @@ public class UserController {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
-    @PostMapping("/UserController/updateid")
-    public ResponseEntity<?> updateUserId(@RequestParam(name="userId") String userId, @RequestParam(name = "newuserId") String newuserId)
+    //http://localhost:8080/UserController/updateusername?userId=1&newusername=hello
+    @PostMapping("/updateusername")
+    public ResponseEntity<?> updateUserId(@RequestParam(name="userId") Integer userId, @RequestParam(name = "newusername") String newusername)
     {
         User user = userServiceimpl.Get(userId);
-        Timestamp instant = Timestamp.from(Instant.now());
-        user.setUserId(newuserId);
-        user.setTimeUpdated(instant);
+        user.setUsername(newusername);
         if(user.getUserId() != null){
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
@@ -85,12 +87,11 @@ public class UserController {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when updating user!\"}",HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/UserController/updatepassword")
-    public ResponseEntity<?> updatePassword(@RequestParam(name="userId") String userId, @RequestParam(name = "newpassword") String newpassword){
+    //http://localhost:8080/UserController/updatepassword?userId=1&newpassword=wonderful
+    @PostMapping("/updatepassword")
+    public ResponseEntity<?> updatePassword(@RequestParam(name="userId") Integer userId, @RequestParam(name = "newpassword") String newpassword){
         User user = userServiceimpl.Get(userId);
-        Timestamp instant = Timestamp.from(Instant.now());
         user.setPassword(newpassword);
-        user.setTimeUpdated(instant);
         if(user.getUserId() != null){
             return new ResponseEntity<>(user, HttpStatus.OK);
         }

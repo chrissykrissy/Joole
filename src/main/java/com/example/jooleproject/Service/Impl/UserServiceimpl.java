@@ -40,14 +40,20 @@ public class UserServiceimpl implements UserService {
         user.setPassword("hi");
         return user;
     }
-    public User Get(String userId){
-        User user = userRepository.getById(userId);
-        return user;
+
+
+    public User Get(Integer userId){
+        List<User> list= userRepository.findByUserId(userId);
+        for(User p : list)
+        {
+            return p;
+        }
+        return null;
     }
 
 
 
-    public void Delete(String username) {
+    public void Delete(Integer username) {
         List<User> list= userRepository.findByUserId(username);
         for(User p: list){
             userRepository.delete(p);

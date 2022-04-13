@@ -1,11 +1,16 @@
 package com.example.jooleproject.Entity;
 
 import com.example.jooleproject.Repository.ProjectRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class ProjectProduct {
     @Id
@@ -13,6 +18,7 @@ public class ProjectProduct {
 
     private int prId;
 
+    @CreatedDate
     private Timestamp timeCreated;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
