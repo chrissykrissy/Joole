@@ -39,6 +39,7 @@ public class ProductController {
         }
     }
 
+    //http://localhost:8080/CustomerController/products/create?Manufacturer=adobe&Series=adobes&Model=idk&UseType=sir&Application=grill&Mounting Location=there&Accessories=here&Year=2021&Air Flow=500&Max Power=200&Sound Max=20&Diameter=50&Height=15
     //create product with all info
     @PostMapping("/products/create")
     public ResponseEntity<?> create(@RequestParam("Manufacturer") String manufacturer,
