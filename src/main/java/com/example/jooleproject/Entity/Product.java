@@ -1,6 +1,7 @@
 package com.example.jooleproject.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Product {
             mappedBy = "product",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIgnore
     private List<ProjectProduct> projProduct;
 
     @OneToOne (cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

@@ -2,6 +2,7 @@ package com.example.jooleproject.Entity;
 
 import com.example.jooleproject.Repository.ProjectRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,11 +24,14 @@ public class ProjectProduct {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "project_id")
+    @JsonIgnore
 
     private Project project;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
     private Product product;
 
     public Product getProduct() {
@@ -57,10 +61,6 @@ public class ProjectProduct {
     public ProjectProduct() {
     }
 
-    public ProjectProduct(int pr_Id, Timestamp timeCreated) {
-        this.prId = pr_Id;
-        this.timeCreated = timeCreated;
-    }
 
     public ProjectProduct(Timestamp timeCreated) {
         this.timeCreated = timeCreated;

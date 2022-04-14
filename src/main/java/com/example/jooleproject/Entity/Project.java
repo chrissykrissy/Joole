@@ -35,7 +35,6 @@ public class Project {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JsonIgnore
     private List<ProjectProduct> projectProduct;
 
 

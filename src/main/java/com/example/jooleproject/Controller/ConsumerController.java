@@ -75,13 +75,31 @@ public class ConsumerController {
         }
     }
 
-    @PostMapping("/productToProjectView")
-    public ResponseEntity<?> view(@RequestParam(name = "prId")Integer prId){
-        ProjectProduct projectProduct = projectProductServiceimpl.Get(prId);
-        if (projectProduct == null) {
+
+    //http://localhost:8080/Consumer/addProduct?productId=3&projectId=2
+    @PostMapping("/addProduct")
+    public ResponseEntity<?> addproduct(@RequestParam(name = "productId")Integer productId, @RequestParam(name = "projectId") Integer projectId){
+        Project project = projectServiceimpl.Get(projectId);
+        if (project == null) {
             return new ResponseEntity<>("{\"error\":\"project not found!\"}", HttpStatus.BAD_REQUEST);
         }
-        String body = projectServiceimpl.Read();
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        Product product = productServiceimpl.findByID(productId);
+        ProjectProduct ptp = new ProjectProduct();
+        Boolean isSuccessful = projectProductServiceimpl.create(ptp, project, product);
+        if(!isSuccessful)
+            return new ResponseEntity<>("{\"error\":\"sth wrong happens when linking product to current project!\"}",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(ptp,HttpStatus.OK);
+    }
+    //http://localhost:8080/Consumer/deleteProduct?prId=6
+    @PostMapping("/deleteProduct")
+    public ResponseEntity<?> deleteproduct(@RequestParam(name = "prId")Integer prId)
+    {
+        ProjectProduct projectProduct = projectProductServiceimpl.Get(prId);
+        projectProductServiceimpl.Delete(prId);
+        if(projectProduct == null){
+            return new ResponseEntity<>("{\"error\":\"sth wrong happens when deleting product from project!\"}",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(projectProduct, HttpStatus.OK);
     }
 }
