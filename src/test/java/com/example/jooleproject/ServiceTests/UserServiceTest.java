@@ -1,4 +1,5 @@
 package com.example.jooleproject.ServiceTests;
+import com.example.jooleproject.Enum.Role;
 import com.example.jooleproject.Service.Impl.UserServiceimpl;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class UserServiceTest {
 
     @Test
     public void create() throws Exception{
-        User result = userServiceimpl.Create("hielo", "customer", "hiello");
+        User result = userServiceimpl.Create("hielo", Role.BUYER, "hiello");
         Assert.assertNotNull(result);
     }
 
@@ -30,7 +31,7 @@ public class UserServiceTest {
 
     @Test
     public void Update(){
-        User before = userServiceimpl.Create("hielo", "customer", "hiello");
+        User before = userServiceimpl.Create("hielo", Role.BUYER, "hiello");
         User after = userServiceimpl.Update(before);
         Assert.assertEquals(before, after);
     }

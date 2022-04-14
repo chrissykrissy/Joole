@@ -1,4 +1,5 @@
 package com.example.jooleproject.RepositoryTests;
+import com.example.jooleproject.Enum.Role;
 import com.example.jooleproject.Repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class UserRepositoryTest {
         User user = new User();
         user.setUsername("hiello");
         user.setPassword("hi");
-        user.setRole("customer");
+        user.setRole(Role.BUYER);
 
         User result = userRepository.save(user);
         Assert.assertNotEquals(null,result);

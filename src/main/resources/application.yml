@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   jpa:
     hibernate:
       ddl-auto: create
@@ -8,7 +10,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:
-      jdbc:mysql://localhost:3306/joole
+      jdbc:mysql://localhost:3306/JooleProject
     username: root
-    password: root
+    password: Wn980716@
 

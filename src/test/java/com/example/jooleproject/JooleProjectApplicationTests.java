@@ -1,6 +1,7 @@
 package com.example.jooleproject;
 
 import com.example.jooleproject.Entity.*;
+import com.example.jooleproject.Enum.Role;
 import com.example.jooleproject.Repository.*;
 
 
@@ -36,7 +37,7 @@ class JooleProjectApplicationTests {
 
 
         //create user
-        User user = new User("xsyjeon", "password", "customer");
+        User user = new User("xsyjeon", Role.BUYER, "customer");
 
         //create proj
         String name = "project";

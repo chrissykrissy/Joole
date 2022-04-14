@@ -1,18 +1,20 @@
 package com.example.jooleproject.Entity;
 
 
+import com.example.jooleproject.Enum.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -20,7 +22,9 @@ public class User {
 
     private String username;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column (name = "role")
+    private Role role;
 
     private String password;
 
@@ -51,11 +55,11 @@ public class User {
         this.username = username;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -82,7 +86,7 @@ public class User {
     public User() {
     }
 
-    public User(String username, String role, String password) {
+    public User(String username, Role role, String password) {
         this.username = username;
         this.role = role;
         this.password = password;

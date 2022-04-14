@@ -1,13 +1,14 @@
 package com.example.jooleproject.Service;
 
 import com.example.jooleproject.Entity.User;
+import com.example.jooleproject.Enum.Role;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 public interface UserService {
-    User Create(String username, String role, String password);
+    User Create(String username, Role role, String password);
 
     String Read();
 
@@ -19,5 +20,6 @@ public interface UserService {
 
     List<User> list();
 
+    User saveUser(User user);
 
 }
