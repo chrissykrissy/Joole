@@ -87,6 +87,7 @@ public class ConsumerController {
         ProjectProduct ptp = new ProjectProduct();
         Boolean isSuccessful = projectProductServiceimpl.create(ptp, project, product);
         if(!isSuccessful)
+        {
             return new ResponseEntity<>("{\"error\":\"sth wrong happens when linking product to current project!\"}",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(ptp,HttpStatus.OK);
