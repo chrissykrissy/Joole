@@ -4,22 +4,13 @@ import com.example.jooleproject.Entity.Product;
 import com.example.jooleproject.Entity.ProductType;
 import com.example.jooleproject.Entity.TechnicalDetail;
 import com.example.jooleproject.Service.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.PropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/CustomerController")
@@ -216,7 +207,7 @@ public class ProductController {
 
     //update type
     @PostMapping("products/updateByProductType")
-    public ResponseEntity<?> updateByType(@RequestParam("ID") int ptID,
+    public ResponseEntity<?> updateByType(@RequestParam("ID") int productID,
                                                    @RequestParam (required = false, name = "UseType") String useType,
                                                    @RequestParam (required = false, name = "Application") String application,
                                                    @RequestParam (required = false, name = "Mounting Location") String mountingLocation,
@@ -224,7 +215,8 @@ public class ProductController {
                                                    @RequestParam (required = false, name = "Year") Integer year) {
 
         try{
-            ProductType pt = productTypeService.findByID(ptID);
+            Product p = productService.findByID(productID);
+            ProductType pt = p.getProductType();
             if(useType != null){
                 pt.setUseType(useType);
             }
@@ -240,7 +232,7 @@ public class ProductController {
             if(year != null){
                 pt.setYear(year);
             }
-            Product p = pt.getProduct();
+//            Product p = pt.getProduct();
             p.setProductType(pt);
             productTypeService.save(pt);
             productService.save(p);
@@ -252,7 +244,7 @@ public class ProductController {
 
     //update Technical
     @PostMapping("products/updateByTechnical")
-    public ResponseEntity<?> updateByTechnicalDetail(@RequestParam("ID") int tdID,
+    public ResponseEntity<?> updateByTechnicalDetail(@RequestParam("ID") int productID,
                                                    @RequestParam (required = false, name = "Air Flow") Integer airflow,
                                                    @RequestParam (required = false, name = "Max Power") Integer maxPower,
                                                    @RequestParam (required = false, name = "Sound Max") Integer soundMax,
@@ -260,7 +252,8 @@ public class ProductController {
                                                    @RequestParam (required = false, name = "Height") Integer height) {
 
         try{
-            TechnicalDetail td = techDetailService.findByID(tdID);
+            Product p = productService.findByID(productID);
+            TechnicalDetail td = p.getTechnicalDetail();
             if(airflow != null){
                 td.setAirflow(airflow);
             }
@@ -276,7 +269,7 @@ public class ProductController {
             if(height != null){
                 td.setHeight(height);
             }
-            Product p = td.getProduct();
+//            Product p = td.getProduct();
             p.setTechnicalDetail(td);
             techDetailService.save(td);
             productService.save(p);
@@ -303,11 +296,11 @@ public class ProductController {
     //Delete product by manu
     @PostMapping("products/deleteByMechanical")
     public ResponseEntity<?> deleteByMechanical(@RequestParam("Manufacturer") String manu){
-        productService.deleteByManufacturer(manu);
         if (productService.findByManufacturer(manu).isEmpty()){
-            return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
-        }else{
             return new ResponseEntity<>("{\"Error\":\"Product could not be deleted!\"}", HttpStatus.BAD_REQUEST);
+        }else{
+            productService.deleteByManufacturer(manu);
+            return new ResponseEntity<>("{Success: Product has been deleted}", HttpStatus.OK);
         }
     }
 }
