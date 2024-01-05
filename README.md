@@ -1,6 +1,7 @@
 # Online Shopping Mall REST API
-_"xsy" branch contains security with jwt_
-<br>
+_Only "xsy" branch contains security with jwt and AWS RDS Connection_
+
+
 Product side could be mainly divided into three parts 1) Product, 2) Product Type, 3)Technical Detail
 1.  Product consists all the information about the product
     1. Includes ProductType and Technical Detail (which are hidden)
